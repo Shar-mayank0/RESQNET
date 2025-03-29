@@ -165,7 +165,25 @@ export default function Home() {
         {/* Map and Alerts */}
         <div className="flex space-x-4 mb-6">
           <div className="w-2/3">
-            <DisasterMap disasters={disasters} />
+            <DisasterMap
+              disasters={disasters}
+              routes={[
+                {
+                  id: 1,
+                  path: [
+                    [13.0827, 80.2707],
+                    [19.076, 72.8777],
+                  ],
+                },
+                {
+                  id: 2,
+                  path: [
+                    [19.076, 72.8777],
+                    [28.7041, 77.1025],
+                  ],
+                },
+              ]}
+            />
             <div className="flex justify-center mt-2 space-x-4">
               <div className="flex items-center">
                 <span className="w-4 h-4 bg-red-500 rounded-full mr-2"></span>

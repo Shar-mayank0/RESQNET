@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.gis.db import models
+
 
 class DisasterAlert(models.Model):
     ALERT_TYPES = [
@@ -17,7 +17,7 @@ class DisasterAlert(models.Model):
     description = models.TextField(blank=True, null=True)
     severity = models.CharField(max_length=50, blank=True, null=True)  # Example: Low, Moderate, High
     timestamp = models.DateTimeField()
-    location = models.PointField(geography=True, null=True, blank=True)  # Store centroid (if applicable)
+    # location = models.PointField(geography=True, null=True, blank=True)  # Store centroid (if applicable)
     raw_data = models.JSONField(help_text="Full GeoJSON response")
 
     def __str__(self):
@@ -38,7 +38,7 @@ class DisasterRegion(models.Model):
     region_type = models.CharField(max_length=20, choices=REGION_TYPES)
     description = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField()
-    geometry = models.PolygonField(geography=True)  # Store affected regions
+    # geometry = models.PolygonField(geography=True)  # Store affected regions
     raw_data = models.JSONField(help_text="Full GeoJSON response")
 
     def __str__(self):
