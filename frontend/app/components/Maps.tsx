@@ -27,6 +27,8 @@ interface Disaster {
 
 interface DisasterMapProps {
   disasters: Disaster[];
+
+  routes: { id: number; path: [number, number][] }[];
 }
 
 export default function DisasterMap({ disasters }: DisasterMapProps) {
