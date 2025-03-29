@@ -1,9 +1,14 @@
-interface IncidentRowProps {
+export interface IncidentRowProps {
   type: string;
+
   location: string;
+
   severity: "High" | "Medium" | "Low";
+
   time: string;
-  status: "In Progress" | "Resolved";
+
+  status: "In Progress" | "Resolved" | "Monitoring";
+
   iconColor: string;
 }
 

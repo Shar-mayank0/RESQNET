@@ -14,17 +14,10 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="w-64 h-screen bg-[#1A2526] text-white flex flex-col p-4">
+    <div className="w-64 h-screen bg-[#1A2526] text-white flex flex-col pl-10">
       {/* Title */}
-      <div className="flex items-center mb-8">
-        <svg
-          className="w-6 h-6 mr-2 text-red-500"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 2L3 12h3v8h6v-6h4v6h6v-8h3L12 2z" />
-        </svg>
-        <h1 className="text-xl font-bold">DisasterSync</h1>
+      <div className="flex items-center mb-2">
+        <img src="/logo1.png" width="150" height="150" />
       </div>
 
       {/* Navigation */}
