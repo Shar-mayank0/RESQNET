@@ -3,7 +3,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
 
 // Fix Leaflet default marker icon paths
 const DefaultIcon = L.icon({
@@ -33,18 +32,7 @@ interface DisasterMapProps {
 
 export default function DisasterMap({ disasters }: DisasterMapProps) {
   // Ensure the map re-renders correctly in Next.js
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Force map to invalidate size after initial render
-      const map = document.querySelector(".leaflet-container") as HTMLElement;
-      if (map) {
-        setTimeout(() => {
-          const leafletMap = L.map(map);
-          leafletMap.invalidateSize();
-        }, 100);
-      }
-    }
-  }, []);
+  // Removed useEffect as MapContainer handles map initialization and resizing
 
   return (
     <div className="h-[400px] rounded-lg overflow-hidden">
