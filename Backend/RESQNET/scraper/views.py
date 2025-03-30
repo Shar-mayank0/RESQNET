@@ -1,80 +1,51 @@
 from django.shortcuts import render
-import requests
-from django.http import JsonResponse
-from .models import DisasterAlert, DisasterRegion
-from django.utils.timezone import now
-
 
 # Create your views here.
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+import logging
+from .scraper import scrape_disaster_data
+from .reddit_fetcher import fetch_reddit_posts
+from .ai_agent import DisasterDataAgent
+from .bert_trainer import train_bert_model
+from .report_generator import ReportGeneratorAgent
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
-def home_test(request):
-    return JsonResponse({'message': 'Hello, World! from initializer'})
-
-
-def scrape_disaster_alerts(request):
+class ProcessDisasterDataView(APIView):
     """
-    Scrapes disaster alerts from the NDEM website (or any other source) and saves them to the database.
+    API view to process disaster data and generate a report
     """
-    url = "https://example.com/disaster-alerts"  # Replace with the actual source
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        data = response.json()  # Assuming the data is in JSON format
-        alerts_saved = 0
-        
-        for alert in data.get("alerts", []):
-            # Skip entries with missing critical data
-            if not all([alert.get("id"), alert.get("title"), alert.get("description"), alert.get("severity"), alert.get("location")]):
-                continue  
+    def post(self, request):
+        try:
+            disaster_type = request.data.get("disaster_type", "flood").lower()
+            location = request.data.get("location", "East District")
+            url = request.data.get("url", "https://example.com")
+            lat = float(request.data.get("lat", 85.123))
+            lon = float(request.data.get("lon", 25.456))
 
-            if not DisasterAlert.objects.filter(source_id=alert["id"]).exists():  # Avoid duplicates
-                DisasterAlert.objects.create(
-                    source_id=alert["id"],
-                    title=alert["title"],
-                    description=alert["description"],
-                    severity=alert["severity"],
-                    alert_type=alert.get("type", "General"),
-                    location=alert["location"],
-                    latitude=alert.get("latitude"),
-                    longitude=alert.get("longitude"),
-                    timestamp=now()
-                )
-                alerts_saved += 1
-        
-        return JsonResponse({"message": f"{alerts_saved} new alerts saved."}, status=201)
-    else:
-        return JsonResponse({"error": "Failed to fetch alerts"}, status=500)
+            # Step 1: Scrape website and weather data
+            scrape_disaster_data(url, disaster_type, location, lat, lon)
 
-def scrape_disaster_regions(request):
-    """
-    Scrapes disaster-affected regions and saves them to the database.
-    """
-    url = "https://example.com/affected-regions"  # Replace with actual source
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        data = response.json()
-        regions_saved = 0
-        
-        for region in data.get("regions", []):
-            # Skip entries with missing critical data
-            if not all([region.get("name"), region.get("type"), region.get("latitude"), region.get("longitude")]):
-                continue  
+            # Step 2: Fetch Reddit posts
+            fetch_reddit_posts(disaster_type, location)
 
-            if not DisasterRegion.objects.filter(name=region["name"]).exists():
-                DisasterRegion.objects.create(
-                    name=region["name"],
-                    region_type=region["type"],
-                    latitude=region["latitude"],
-                    longitude=region["longitude"],
-                    timestamp=now()
-                )
-                regions_saved += 1
-        
-        return JsonResponse({"message": f"{regions_saved} new regions saved."}, status=201)
-    else:
-        return JsonResponse({"error": "Failed to fetch regions"}, status=500)
+            # Step 3: Combine and format data
+            agent = DisasterDataAgent()
+            formatted_data = agent.combine_and_format_data(disaster_type, location)
 
+            # Step 4: Train BERT model and get best data sets
+            best_data = train_bert_model(disaster_type, location)
 
+            # Step 5: Generate report
+            report_agent = ReportGeneratorAgent()
+            report = report_agent.generate_report(best_data, disaster_type, location)
 
+            return Response(report, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            logger.error(f"Error processing disaster data: {str(e)}")
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
