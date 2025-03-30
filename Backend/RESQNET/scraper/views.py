@@ -4,6 +4,14 @@ from django.http import JsonResponse
 from .models import DisasterAlert, DisasterRegion
 from django.utils.timezone import now
 
+
+# Create your views here.
+
+
+def home_test(request):
+    return JsonResponse({'message': 'Hello, World! from initializer'})
+
+
 def scrape_disaster_alerts(request):
     """
     Scrapes disaster alerts from the NDEM website (or any other source) and saves them to the database.
