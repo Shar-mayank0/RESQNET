@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 import logging
-from .scraper import scrape_disaster_data
+from .scraper import DisasterDataScraper
 from .reddit_fetcher import fetch_reddit_posts
 from .ai_agent import DisasterDataAgent
 from .bert_trainer import train_bert_model
@@ -28,7 +28,7 @@ class ProcessDisasterDataView(APIView):
             lon = float(request.data.get("lon", 25.456))
 
             # Step 1: Scrape website and weather data
-            scrape_disaster_data(url, disaster_type, location, lat, lon)
+            DisasterDataScraper.scrape_ndem_data()
 
             # Step 2: Fetch Reddit posts
             fetch_reddit_posts(disaster_type, location)

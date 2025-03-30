@@ -6,7 +6,7 @@ import datetime
 from dotenv import load_dotenv
 import logging
 from .models import ScrapedData, RedditPost, FormattedDisasterData
-
+from .scraper import DisasterDataScraper
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -77,7 +77,7 @@ class DisasterDataAgent:
             Ensure the combined_text is concise (max 512 tokens) and relevant for disaster analysis.
 
             Scraped Data:
-            {json.dumps(scraped_data_list, indent=2)}
+            {json.dumps(DisasterDataScraper.scrape_ndem_data(), indent=2)}
 
             Reddit Posts:
             {json.dumps(reddit_posts_list, indent=2)}
