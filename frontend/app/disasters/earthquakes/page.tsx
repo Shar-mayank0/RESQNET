@@ -1,75 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import DisasterMap from "../../components/Maps";
-import IncidentRow from "../../components/IncidentRow";
 
-interface Earthquake {
-  id: number;
-  lat: number;
-  lng: number;
-  magnitude: number;
-  depth: number;
-  risk: "High" | "Medium" | "Low";
-}
+import IncidentRow from "../../components/IncidentRow";
 
 export default function EarthquakesPage() {
   // State for earthquake data
-  const [earthquakes] = useState<Earthquake[]>([
-    {
-      id: 1,
-      lat: 28.7041,
-      lng: 77.1025,
-      magnitude: 5.8,
-      depth: 12,
-      risk: "High",
-    }, // Delhi
-    {
-      id: 2,
-      lat: 34.0837,
-      lng: 74.7973,
-      magnitude: 6.2,
-      depth: 15,
-      risk: "High",
-    }, // Kashmir
-    {
-      id: 3,
-      lat: 30.7333,
-      lng: 79.0667,
-      magnitude: 4.5,
-      depth: 8,
-      risk: "Medium",
-    }, // Uttarakhand
-    {
-      id: 4,
-      lat: 23.0225,
-      lng: 72.5714,
-      magnitude: 3.8,
-      depth: 5,
-      risk: "Low",
-    }, // Gujarat
-  ]);
 
   // Fault lines data
-  const faultLines: { id: number; path: [number, number][] }[] = [
-    {
-      id: 1,
-      path: [
-        [34.0837, 74.7973], // Kashmir
-        [33.9, 75.1],
-        [33.5, 75.5],
-      ],
-    },
-    {
-      id: 2,
-      path: [
-        [30.7333, 79.0667], // Uttarakhand
-        [30.6, 79.2],
-        [30.4, 79.4],
-      ],
-    },
-  ];
 
   // State for active incidents
   const incidents: {
@@ -158,29 +96,6 @@ export default function EarthquakesPage() {
                 <div className="text-gray-400 mb-1">Largest Magnitude</div>
                 <div className="text-2xl font-bold">6.2</div>
                 <div className="text-sm text-gray-400">Kashmir, 2h ago</div>
-              </div>
-            </div>
-
-            {/* Map */}
-            <div className="bg-[#1E2D3A] p-4 rounded">
-              <DisasterMap disasters={earthquakes} routes={faultLines} />
-              <div className="flex justify-center mt-2 space-x-4">
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-red-500 rounded-full mr-2"></span>
-                  High Risk (Mag &gt; 5.5)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
-                  Medium Risk (Mag 4-5.5)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
-                  Low Risk (Mag &lt; 4)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-red-500 mr-2"></span>
-                  Fault Lines
-                </div>
               </div>
             </div>
 

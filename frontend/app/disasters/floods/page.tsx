@@ -1,56 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import DisasterMap from "../../components/Maps";
+
 import IncidentRow from "../../components/IncidentRow";
-
-interface Disaster {
-  id: number;
-  lat: number;
-  lng: number;
-  risk: "High" | "Medium" | "Low";
-}
-
-interface Route {
-  id: number;
-  path: [number, number][];
-  color?: string;
-  label?: string;
-}
 
 export default function FloodsPage() {
   // State for flood disasters
-  const [disasters] = useState<Disaster[]>([
-    { id: 1, lat: 13.0827, lng: 80.2707, risk: "High" }, // Chennai
-    { id: 2, lat: 25.3176, lng: 82.9739, risk: "Medium" }, // Varanasi
-    { id: 3, lat: 26.2006, lng: 92.9376, risk: "High" }, // Guwahati (for Brahmaputra)
-    { id: 4, lat: 25.5941, lng: 85.1376, risk: "High" }, // Patna (for Ganges)
-  ]);
 
   // Evacuation routes data
-  const routes: Route[] = [
-    {
-      id: 1,
-      path: [
-        [25.5941, 85.1376], // Patna
-        [25.6041, 85.1476],
-        [25.6141, 85.1576],
-      ],
-      color: "blue",
-      label: "Evacuation Route from Patna",
-    },
-    {
-      id: 2,
-      path: [
-        [26.2006, 92.9376], // Guwahati
-        [26.2106, 92.9476],
-        [26.2206, 92.9576],
-      ],
-      color: "blue",
-      label: "Evacuation Route from Guwahati",
-    },
-  ];
 
   // State for active incidents
   const incidents: {
@@ -139,29 +96,6 @@ export default function FloodsPage() {
                 <div className="text-gray-400 mb-1">Rainfall Level</div>
                 <div className="text-2xl font-bold">258mm</div>
                 <div className="text-sm text-gray-400">+28mm in last 24h</div>
-              </div>
-            </div>
-
-            {/* Map */}
-            <div className="bg-[#1E2D3A] p-4 rounded">
-              <DisasterMap disasters={disasters} routes={routes} />
-              <div className="flex justify-center mt-2 space-x-4">
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-red-500 rounded-full mr-2"></span>
-                  High Risk
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
-                  Medium Risk
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
-                  Low Risk
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-blue-500 mr-2"></span>
-                  Evacuation Route
-                </div>
               </div>
             </div>
 

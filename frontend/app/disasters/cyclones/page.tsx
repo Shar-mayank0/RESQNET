@@ -1,79 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import DisasterMap from "../../components/Maps";
-import IncidentRow from "../../components/IncidentRow";
 
-interface Cyclone {
-  id: number;
-  lat: number;
-  lng: number;
-  windSpeed: number;
-  pressure: number;
-  risk: "High" | "Medium" | "Low";
-}
+import IncidentRow from "../../components/IncidentRow";
 
 export default function CyclonesPage() {
   // State for cyclone data
-  const [cyclones] = useState<Cyclone[]>([
-    {
-      id: 1,
-      lat: 15.9129,
-      lng: 84.124,
-      windSpeed: 175,
-      pressure: 950,
-      risk: "High",
-    }, // Bay of Bengal
-    {
-      id: 2,
-      lat: 13.0827,
-      lng: 80.2707,
-      windSpeed: 165,
-      pressure: 958,
-      risk: "High",
-    }, // Chennai Coast
-    {
-      id: 3,
-      lat: 17.6868,
-      lng: 83.2185,
-      windSpeed: 120,
-      pressure: 970,
-      risk: "Medium",
-    }, // Visakhapatnam
-    {
-      id: 4,
-      lat: 20.2961,
-      lng: 85.8245,
-      windSpeed: 85,
-      pressure: 990,
-      risk: "Low",
-    }, // Odisha Coast
-  ]);
 
   // Predicted cyclone paths
-  const cyclonePaths: { id: number; path: [number, number][] }[] = [
-    {
-      id: 1,
-      path: [
-        [15.9129, 84.124], // Bay of Bengal
-        [14.9, 83.5],
-        [14.0, 82.8],
-        [13.1, 82.0],
-        [13.0827, 80.2707], // Chennai
-      ],
-    },
-    {
-      id: 2,
-      path: [
-        [17.6868, 83.2185], // Visakhapatnam
-        [18.1, 83.8],
-        [18.5, 84.5],
-        [19.0, 85.0],
-        [20.2961, 85.8245], // Odisha
-      ],
-    },
-  ];
 
   // State for active incidents
   const incidents: {
@@ -163,29 +97,6 @@ export default function CyclonesPage() {
                 <div className="text-2xl font-bold">175 km/h</div>
                 <div className="text-sm text-gray-400">
                   Bay of Bengal, 3h ago
-                </div>
-              </div>
-            </div>
-
-            {/* Map */}
-            <div className="bg-[#1E2D3A] p-4 rounded">
-              <DisasterMap disasters={cyclones} routes={cyclonePaths} />
-              <div className="flex justify-center mt-2 space-x-4">
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-red-500 rounded-full mr-2"></span>
-                  High Risk (Wind &gt; 150 km/h)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
-                  Medium Risk (Wind 100-150 km/h)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
-                  Low Risk (Wind &lt; 100 km/h)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-blue-500 mr-2"></span>
-                  Predicted Path
                 </div>
               </div>
             </div>

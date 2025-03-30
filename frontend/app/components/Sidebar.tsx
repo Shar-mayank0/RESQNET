@@ -10,7 +10,6 @@ export default function Sidebar() {
     },
     { name: "Cyclones", path: "/disasters/cyclones", color: "bg-green-500" },
     { name: "Wildfires", path: "/disasters/wildfires", color: "bg-red-500" },
-    { name: "Landslides", path: "/disasters/landslides", color: "bg-gray-500" },
   ];
 
   return (

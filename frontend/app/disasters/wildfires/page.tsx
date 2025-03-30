@@ -1,79 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import DisasterMap from "../../components/Maps";
-import IncidentRow from "../../components/IncidentRow";
 
-interface Wildfire {
-  id: number;
-  lat: number;
-  lng: number;
-  intensity: number;
-  size: number; // in hectares
-  risk: "High" | "Medium" | "Low";
-}
+import IncidentRow from "../../components/IncidentRow";
 
 export default function WildfiresPage() {
   // State for wildfire data
-  const [wildfires] = useState<Wildfire[]>([
-    {
-      id: 1,
-      lat: 21.7679,
-      lng: 78.8718,
-      intensity: 85,
-      size: 1200,
-      risk: "High",
-    }, // Central India
-    {
-      id: 2,
-      lat: 19.076,
-      lng: 72.8777,
-      intensity: 75,
-      size: 850,
-      risk: "High",
-    }, // Maharashtra
-    {
-      id: 3,
-      lat: 28.7041,
-      lng: 77.1025,
-      intensity: 60,
-      size: 620,
-      risk: "Medium",
-    }, // Northern India
-    {
-      id: 4,
-      lat: 12.9716,
-      lng: 77.5946,
-      intensity: 40,
-      size: 320,
-      risk: "Low",
-    }, // Southern India
-  ]);
 
   // Predicted wildfire spread
-  const fireSpreadPaths: { id: number; path: [number, number][] }[] = [
-    {
-      id: 1,
-      path: [
-        [21.7679, 78.8718], // Central India
-        [21.9, 79.0],
-        [22.1, 79.2],
-        [22.3, 79.4],
-        [22.5, 79.6],
-      ],
-    },
-    {
-      id: 2,
-      path: [
-        [19.076, 72.8777], // Maharashtra
-        [19.2, 73.0],
-        [19.3, 73.1],
-        [19.4, 73.2],
-        [19.5, 73.3],
-      ],
-    },
-  ];
 
   // State for active incidents
   const incidents: {
@@ -164,29 +98,6 @@ export default function WildfiresPage() {
                 <div className="text-2xl font-bold">85%</div>
                 <div className="text-sm text-gray-400">
                   Central India, 2h ago
-                </div>
-              </div>
-            </div>
-
-            {/* Map */}
-            <div className="bg-[#1E2D3A] p-4 rounded">
-              <DisasterMap disasters={wildfires} routes={fireSpreadPaths} />
-              <div className="flex justify-center mt-2 space-x-4">
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-red-500 rounded-full mr-2"></span>
-                  High Risk (Intensity &gt; 70%)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-yellow-500 rounded-full mr-2"></span>
-                  Medium Risk (Intensity 40-70%)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-green-500 rounded-full mr-2"></span>
-                  Low Risk (Intensity &lt; 40%)
-                </div>
-                <div className="flex items-center">
-                  <span className="w-4 h-4 bg-orange-500 mr-2"></span>
-                  Predicted Spread
                 </div>
               </div>
             </div>
