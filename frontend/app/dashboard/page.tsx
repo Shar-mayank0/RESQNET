@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import StatsCard from "../components/StatsCard";
-import DisasterMap from "../components/Maps";
 import LiveAlert from "../components/LiveAlert";
 import IncidentRow from "../components/IncidentRow";
 import ResourceBar from "../components/ResourceBar";
 import Weather from "../components/Weather";
+import dynamic from "next/dynamic";
 
 interface Disaster {
   id: number;
@@ -44,7 +44,9 @@ interface Resource {
   percentage: number;
   color: string;
 }
-
+const DynamicDisasterMap = dynamic(() => import("../components/Maps"), {
+  ssr: false, // This will only load the component on the client side
+});
 export default function Home() {
   const [disasters] = useState<Disaster[]>([
     { id: 1, lat: 13.0827, lng: 80.2707, risk: "High" }, // Chennai
@@ -166,7 +168,7 @@ export default function Home() {
         {/* Map and Alerts */}
         <div className="flex space-x-4 mb-6">
           <div className="w-2/3">
-            <DisasterMap
+            <DynamicDisasterMap
               disasters={disasters}
               routes={[
                 {
