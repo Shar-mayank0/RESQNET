@@ -35,6 +35,9 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-6 py-24 md:py-32">
           <div className="max-w-4xl">
             <h1 className="mb-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+              ResQNet
+            </h1>
+            <h1 className="mb-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
               AI-Powered{" "}
               <span className="text-blue-400">Disaster Management</span> for
               Relief Workers
