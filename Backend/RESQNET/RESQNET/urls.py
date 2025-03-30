@@ -1,14 +1,28 @@
-from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
-from scraper.views import ProcessDisasterDataView
-from django.http import HttpResponse  # Import HttpResponse for a simple view
+"""
+URL configuration for RESQNET project.
 
-# Simple view for the root path
-def home(request):
-    return HttpResponse("Welcome to RESQNET! Use the /process-disaster-data/ endpoint to process disaster data.")
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    path('', home, name='home'),  # Add root path
-    path('process-disaster-data/', ProcessDisasterDataView.as_view(), name='process_disaster_data'),
-] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('ai_analysis/', include('ai_analysis.urls')),
+    path('scraper/', include('ai_analysis.urls')),
+    path('nlp_processor/', include('ai_analysis.urls')),
+]
